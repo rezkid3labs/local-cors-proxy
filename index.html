@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local CORS proxy check</title>
+</head>
+<body>
+  <h1>Local CORS proxy check</h1>
+  <label>Path on upstream: <input id="path" value="/" size="40"></label>
+  <button id="check">Send request</button>
+  <pre id="result">Start the proxy, then click Send request.</pre>
+  <script>
+    document.querySelector("#check").addEventListener("click", async () => {
+      const path = document.querySelector("#path").value;
+      const result = document.querySelector("#result");
+      try {
+        const response = await fetch(`http://localhost:8080${path.startsWith("/") ? path : `/${path}`}`);
+        result.textContent = `HTTP ${response.status}\n${await response.text()}`;
+      } catch (error) {
+        result.textContent = `Request failed: ${error}`;
+      }
+    });
+  </script>
+</body>
+</html>
