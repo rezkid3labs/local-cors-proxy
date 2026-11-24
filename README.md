@@ -4,19 +4,25 @@ A small development-only reverse proxy that adds CORS headers to an upstream API
 
 ## Install and run
 
-Install Go, then build and install the executable from this project directory:
+Install Go, then install the command:
 
 ```sh
-go install .
+go install github.com/rezkid3labs/local-cors-proxy@latest
 ```
 
-This creates an executable named `local-cors-proxy` (Windows: `local-cors-proxy.exe`) in the directory reported by `go env GOBIN`. If `GOBIN` is empty, Go installs it under `$(go env GOPATH)/bin` (commonly `~/go/bin`). Add that directory to your `PATH` if needed.
-
-Run it with the upstream API URL:
+Start the proxy by giving it the upstream API URL:
 
 ```sh
 local-cors-proxy -target https://api.example.com
 ```
+
+Or specify the origin
+
+```sh
+local-cors-proxy -target https://api.example.com -origin http://localhost:3000
+```
+
+It listens on `http://localhost:8080`. Requests to that address are forwarded to your upstream, preserving the path and query string. For example, `http://localhost:8080/api/health` is forwarded to `https://api.example.com/api/health`.
 
 Alternatively, without installing, run directly from this project directory:
 
